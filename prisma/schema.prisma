@@ -9,3 +9,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model LolAccount {
+  id               String   @id @default(uuid())
+  username         String   @unique
+  email            String   @unique
+  password         String
+  sold             Boolean? @default(false)
+  level            Int?     @default(30)
+  blueEssence      Int
+  skinQuantity     Int
+  championQuantity Int
+  price            Decimal
+}
