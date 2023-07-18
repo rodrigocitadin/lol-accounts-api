@@ -1,0 +1,12 @@
+version: '2.0'
+
+services:
+  database:
+    container_name: lol_accounts_db
+    image: postgres:13
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
