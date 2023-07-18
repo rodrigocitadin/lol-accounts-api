@@ -17,10 +17,25 @@ model LolAccount {
   password         String
   sold             Boolean? @default(false)
   level            Int?     @default(30)
+  elo              Elo      @default(UNRANKED)
   blueEssence      Int
   skinQuantity     Int
   championQuantity Int
   price            Decimal
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+enum Elo {
+  UNRANKED
+  IRON
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  EMERALD
+  DIAMOND
+  MASTER
+  GRANDMASTER
+  CHALLENGER
 }
