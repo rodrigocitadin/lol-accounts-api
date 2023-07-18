@@ -21,4 +21,6 @@ model LolAccount {
   skinQuantity     Int
   championQuantity Int
   price            Decimal
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
