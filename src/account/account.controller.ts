@@ -5,7 +5,7 @@ import { UpdateAccountDto } from './dto/update-account.dto';
 
 @Controller('account')
 export class AccountController {
-  constructor(private readonly accountService: AccountService) {}
+  constructor(private readonly accountService: AccountService) { }
 
   @Post()
   create(@Body() createAccountDto: CreateAccountDto) {
@@ -18,8 +18,8 @@ export class AccountController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.accountService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.accountService.findOne(id);
   }
 
   @Patch(':id')
