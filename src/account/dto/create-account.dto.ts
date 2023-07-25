@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client';
 enum Elo {
   UNRANKED,
   IRON,
+  BRONZE,
   SILVER,
   GOLD,
   PLATINUM,
@@ -31,15 +32,15 @@ export class CreateAccountDto {
 
   @IsBoolean()
   @IsOptional()
-  sold: boolean
+  sold?: boolean
 
   @IsInt()
   @IsOptional()
-  level: number;
+  level?: number;
 
   @IsEnum(Elo)
   @IsOptional()
-  elo: Elo
+  elo?: Elo
 
   @IsInt()
   @IsNotEmpty()
