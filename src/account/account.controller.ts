@@ -8,8 +8,8 @@ export class AccountController {
   constructor(private readonly accountService: AccountService) { }
 
   @Post()
-  create(@Body() createAccountDto: CreateAccountDto) {
-    return this.accountService.create(createAccountDto);
+  async create(@Body() createAccountDto: CreateAccountDto) {
+    return await this.accountService.create(createAccountDto);
   }
 
   @Get()
