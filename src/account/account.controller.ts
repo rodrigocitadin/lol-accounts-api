@@ -9,7 +9,8 @@ export class AccountController {
 
   @Post()
   async create(@Body() createAccountDto: CreateAccountDto) {
-    return await this.accountService.create(createAccountDto);
+    const user = await this.accountService.create(createAccountDto);
+    return user;
   }
 
   @Get()
@@ -19,7 +20,8 @@ export class AccountController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.accountService.findOne(id);
+    const user = await this.accountService.findOne(id);
+    return user;
   }
 
   @Patch(':id')
