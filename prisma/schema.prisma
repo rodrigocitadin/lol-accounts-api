@@ -15,8 +15,8 @@ model Account {
   username         String   @unique
   email            String   @unique
   password         String
-  sold             Boolean? @default(false)
-  level            Int?     @default(30)
+  sold             Boolean  @default(false)
+  level            Int      @default(30)
   elo              Elo      @default(UNRANKED)
   blueEssence      Int
   skinQuantity     Int
