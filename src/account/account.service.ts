@@ -33,8 +33,15 @@ export class AccountService {
   }
 
 
-  update(id: number, updateAccountDto: UpdateAccountDto) {
-    // todo
+  async update(id: string, updateAccountDto: UpdateAccountDto) {
+    const updatedAccount = await this.prisma.account.update({
+      where: { id },
+      data: updateAccountDto
+    })
+
+    if (!updatedAccount) return new BadRequestException;
+
+    return updatedAccount;
   }
 
   remove(id: number) {
