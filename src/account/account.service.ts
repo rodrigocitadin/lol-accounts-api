@@ -23,7 +23,7 @@ export class AccountService {
   }
 
   async findOne(id: string) {
-    const account = await this.prisma.account.findFirst({
+    const account: Account = await this.prisma.account.findFirst({
       where: { id }
     });
 
