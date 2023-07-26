@@ -16,13 +16,13 @@ export class AccountService {
     return account;
   }
 
-  async findAll() {
+  async findAll(): Promise<Account[]> {
     const accounts: Account[] = await this.prisma.account.findMany();
 
     return accounts;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Account> {
     const account: Account = await this.prisma.account.findFirst({
       where: { id }
     });
@@ -32,23 +32,22 @@ export class AccountService {
     return account;
   }
 
-
-  async update(id: string, updateAccountDto: UpdateAccountDto) {
-    const updatedAccount = await this.prisma.account.update({
+  async update(id: string, updateAccountDto: UpdateAccountDto): Promise<Account> {
+    const updatedAccount: Account = await this.prisma.account.update({
       where: { id },
       data: updateAccountDto
     })
 
-    if (!updatedAccount) return new BadRequestException;
+    if (!updatedAccount) throw new BadRequestException;
 
     return updatedAccount;
   }
 
-  async remove(id: string) {
-    const account = await this.prisma.account.delete({
+  async remove(id: string): Promise<void> {
+    const account: Account = await this.prisma.account.delete({
       where: { id }
     })
 
-    if (!account) return new NotFoundException
+    if (!account) throw new NotFoundException
   }
 }
