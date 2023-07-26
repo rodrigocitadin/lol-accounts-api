@@ -21,13 +21,13 @@ export class AccountService {
   }
 
   async findOne(id: string) {
-    const user = await this.prisma.account.findFirst({
+    const account = await this.prisma.account.findFirst({
       where: { id }
     });
 
-    if (!user) throw new NotFoundException
+    if (!account) throw new NotFoundException
 
-    return user;
+    return account;
   }
 
 
