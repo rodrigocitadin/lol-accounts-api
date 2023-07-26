@@ -44,7 +44,11 @@ export class AccountService {
     return updatedAccount;
   }
 
-  remove(id: number) {
-    // todo
+  async remove(id: string) {
+    const account = await this.prisma.account.delete({
+      where: { id }
+    })
+
+    if (!account) return new NotFoundException
   }
 }
