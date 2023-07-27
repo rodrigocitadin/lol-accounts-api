@@ -9,8 +9,8 @@ export class AccountController {
 
   @Post()
   async create(@Body() createAccountDto: CreateAccountDto) {
-    const user = await this.accountService.create(createAccountDto);
-    return user;
+    const account = await this.accountService.create(createAccountDto);
+    return account;
   }
 
   @Get()
