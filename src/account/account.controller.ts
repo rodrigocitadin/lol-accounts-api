@@ -14,8 +14,9 @@ export class AccountController {
   }
 
   @Get()
-  findAll() {
-    return this.accountService.findAll();
+  async findAll() {
+    const accounts = await this.accountService.findAll();
+    return accounts;
   }
 
   @Get(':id')
