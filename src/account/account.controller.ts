@@ -31,7 +31,7 @@ export class AccountController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.accountService.remove(+id);
+  async remove(@Param('id') id: string) {
+    await this.accountService.remove(id);
   }
 }
