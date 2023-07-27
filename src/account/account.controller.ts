@@ -20,8 +20,8 @@ export class AccountController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const user = await this.accountService.findOne(id);
-    return user;
+    const account = await this.accountService.findOne(id);
+    return account;
   }
 
   @Patch(':id')
