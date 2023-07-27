@@ -3,13 +3,17 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { PrismaService } from 'src/prisma.service';
 import { Account } from '@prisma/client';
+import { cryptPassword } from './utils/cryptPassword';
 
 @Injectable()
 export class AccountService {
   constructor(private prisma: PrismaService) { }
 
   async create(createAccountDto: CreateAccountDto): Promise<Account> {
-    const account: Account = await this.prisma.account.create({ data: createAccountDto })
+    const newPassword = cryptPassword(createAccountDto.password);
+    const accountData = { ...createAccountDto, ...newPassword };
+
+    const account: Account = await this.prisma.account.create({ data: accountData })
 
     if (!account) throw new BadRequestException;
 
