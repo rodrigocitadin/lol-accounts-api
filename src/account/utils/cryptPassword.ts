@@ -16,17 +16,17 @@ export async function cryptPassword(password: string): Promise<string> {
     cipher.final(),
   ]);
 
-  return String(encryptedText);
+  return encryptedText.toString('hex');
 }
 
-export async function decryptPassword(encryptedText: Buffer): Promise<string> {
-  const key = (await promisify(scrypt)(gen, 'salt', 32)) as Buffer;
-  const decipher = createDecipheriv('aes-256-ctr', key, iv);
+// export async function decryptPassword(encryptedText: Buffer): Promise<Buffer> {
+//   const key = (await promisify(scrypt)(gen, 'salt', 32)) as Buffer;
+//   const decipher = createDecipheriv('aes-256-ctr', key, iv);
 
-  const decryptedText = Buffer.concat([
-    decipher.update(encryptedText),
-    decipher.final(),
-  ]);
+//   const decryptedText = Buffer.concat([
+//     decipher.update(encryptedText),
+//     decipher.final(),
+//   ]);
 
-  return String(decryptedText);
-}
+//   return decryptedText;
+// }

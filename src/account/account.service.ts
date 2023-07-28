@@ -10,8 +10,8 @@ export class AccountService {
   constructor(private prisma: PrismaService) { }
 
   async create(createAccountDto: CreateAccountDto): Promise<Account> {
-    const newPassword = cryptPassword(createAccountDto.password);
-    const accountData = { ...createAccountDto, ...newPassword };
+    const password = await cryptPassword(createAccountDto.password);
+    const accountData = { ...createAccountDto, ...{ password } }
 
     const account: Account = await this.prisma.account.create({ data: accountData })
 
