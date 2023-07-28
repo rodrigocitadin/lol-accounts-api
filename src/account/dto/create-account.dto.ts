@@ -1,18 +1,5 @@
-import { IsBoolean, IsDecimal, IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, IsStrongPassword } from "class-validator";
-import { Prisma } from '@prisma/client';
-
-type Elo =
-  "UNRANKED"
-  | "IRON"
-  | "BRONZE"
-  | "SILVER"
-  | "GOLD"
-  | "PLATINUM"
-  | "EMERALD"
-  | "DIAMOND"
-  | "MASTER"
-  | "GRANDMASTER"
-  | "CHALLENGER"
+import { IsBoolean, IsDecimal, IsEmail, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsStrongPassword } from "class-validator";
+import { Region, Elo, Prisma } from '@prisma/client';
 
 export class CreateAccountDto {
   @IsString()
@@ -24,6 +11,10 @@ export class CreateAccountDto {
   @IsNotEmpty()
   email: string;
 
+  @IsBoolean()
+  @IsOptional()
+  verifiedEmail: boolean;
+
   @IsString()
   @IsStrongPassword()
   @IsNotEmpty()
@@ -31,13 +22,17 @@ export class CreateAccountDto {
 
   @IsBoolean()
   @IsOptional()
-  sold?: boolean
+  sold?: boolean;
+
+  @IsEnum(Region)
+  @IsNotEmpty()
+  region: Region;
 
   @IsInt()
   @IsOptional()
   level?: number;
 
-  @IsString()
+  @IsEnum(Elo)
   @IsOptional()
   elo?: Elo
 
