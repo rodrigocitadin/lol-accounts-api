@@ -14,8 +14,10 @@ model Account {
   id               String   @id @default(uuid())
   username         String   @unique
   email            String   @unique
+  verifiedEmail    Boolean  @default(false)
   password         String
   sold             Boolean  @default(false)
+  region           Region   @default(BR)
   level            Int      @default(30)
   elo              Elo      @default(UNRANKED)
   blueEssence      Int
@@ -38,4 +40,24 @@ enum Elo {
   MASTER
   GRANDMASTER
   CHALLENGER
+}
+
+enum Region {
+  BR
+  EUNE
+  EUW
+  LAN
+  LAS
+  NA
+  OCE
+  RU
+  TR
+  JP
+  KR
+  PH
+  SG
+  TW
+  TH
+  VN
+  PBE
 }
