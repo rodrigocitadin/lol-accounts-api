@@ -16,6 +16,8 @@ model Account {
   email            String   @unique
   verifiedEmail    Boolean  @default(false)
   password         String
+  owner            User     @relation(fields: [ownerId], references: [id])
+  ownerId          String
   sold             Boolean  @default(false)
   region           Region   @default(BR)
   level            Int      @default(30)
@@ -26,6 +28,15 @@ model Account {
   price            Decimal
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+}
+
+model User {
+  id       String    @id @default(uuid())
+  username String    @unique
+  email    String    @unique
+  password String
+  accounts Account[]
+  role     Role      @default(USER)
 }
 
 enum Elo {
@@ -60,4 +71,9 @@ enum Region {
   TH
   VN
   PBE
+}
+
+enum Role {
+  USER
+  ADMIN
 }
