@@ -20,6 +20,10 @@ export class CreateAccountDto {
   @IsNotEmpty()
   password: string;
 
+  @IsString()
+  @IsNotEmpty()
+  ownerId: string;
+
   @IsBoolean()
   @IsOptional()
   sold?: boolean;
