@@ -49,7 +49,11 @@ export class UserService {
     return updatedUser
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string): Promise<void> {
+    const user: User = await this.prisma.user.delete({
+      where: { id }
+    })
+
+    if (!user) throw new NotFoundException
   }
 }
