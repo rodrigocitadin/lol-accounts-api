@@ -38,8 +38,15 @@ export class UserService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const updatedUser: User = await this.prisma.user.update({
+      where: { id },
+      data: updateUserDto
+    })
+
+    if (!updatedUser) throw new BadRequestException;
+
+    return updatedUser
   }
 
   remove(id: number) {
