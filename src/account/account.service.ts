@@ -10,10 +10,10 @@ export class AccountService {
   constructor(private prisma: PrismaService) { }
 
   async create(createAccountDto: CreateAccountDto): Promise<Account> {
-    const password = await cryptPassword(createAccountDto.password);
-    const accountData = { ...createAccountDto, ...{ password } }
+    const encryptedPassword = await cryptPassword(createAccountDto.password);
+    createAccountDto.password = encryptedPassword;
 
-    const account: Account = await this.prisma.account.create({ data: accountData })
+    const account: Account = await this.prisma.account.create({ data: createAccountDto })
 
     if (!account) throw new BadRequestException;
 
