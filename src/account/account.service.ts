@@ -37,6 +37,11 @@ export class AccountService {
   }
 
   async update(id: string, updateAccountDto: UpdateAccountDto): Promise<Account> {
+    if (updateAccountDto.password) {
+      let encryptedPassword = await cryptPassword(updateAccountDto.password);
+      updateAccountDto.password = encryptedPassword;
+    }
+
     const updatedAccount: Account = await this.prisma.account.update({
       where: { id },
       data: updateAccountDto
