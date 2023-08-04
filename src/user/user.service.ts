@@ -11,11 +11,10 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const salt = await bcrypt.genSalt();
-    const password = await bcrypt.hash(createUserDto.password, salt);
+    const encryptedPassword = await bcrypt.hash(createUserDto.password, salt);
+    createUserDto.password = encryptedPassword;
 
-    const userData: CreateUserDto = { ...createUserDto, ...{ password } };
-
-    const user: User = await this.prisma.user.create({ data: userData });
+    const user: User = await this.prisma.user.create({ data: createUserDto });
 
     if (!user) throw new BadRequestException;
 
