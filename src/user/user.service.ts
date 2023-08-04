@@ -38,6 +38,12 @@ export class UserService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.password) {
+      let salt = await bcrypt.genSalt();
+      let encryptedPassword = await bcrypt.hash(updateUserDto.password, salt);
+      updateUserDto.password = encryptedPassword;
+    }
+
     const updatedUser: User = await this.prisma.user.update({
       where: { id },
       data: updateUserDto
