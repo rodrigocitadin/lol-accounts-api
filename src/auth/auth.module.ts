@@ -6,8 +6,7 @@ import { LocalStrategy } from './strategy/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
-const configService: ConfigService = new ConfigService;
+import { jwtConstants } from './constants';
 
 @Module({
   controllers: [AuthController],
@@ -16,7 +15,7 @@ const configService: ConfigService = new ConfigService;
     PassportModule,
     ConfigModule,
     JwtModule.register({
-      secret: configService.get<string>('JWT_SECRET'),
+      secret: jwtConstants.secret,
       signOptions: { expiresIn: '1 day' }
     })
   ],
