@@ -16,7 +16,7 @@ export class UserService {
 
     const user: User = await this.prisma.user.create({ data: createUserDto });
 
-    if (!user) throw new BadRequestException;
+    if (!user) throw new BadRequestException();
 
     return user;
   }
@@ -32,7 +32,7 @@ export class UserService {
       where: { id }
     })
 
-    if (!user) throw new NotFoundException
+    if (!user) throw new NotFoundException();
 
     return user;
   }
@@ -49,7 +49,7 @@ export class UserService {
       data: updateUserDto
     })
 
-    if (!updatedUser) throw new BadRequestException;
+    if (!updatedUser) throw new BadRequestException();
 
     return updatedUser
   }
@@ -59,6 +59,6 @@ export class UserService {
       where: { id }
     })
 
-    if (!user) throw new NotFoundException
+    if (!user) throw new NotFoundException()
   }
 }

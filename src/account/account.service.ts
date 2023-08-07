@@ -15,7 +15,7 @@ export class AccountService {
 
     const account: Account = await this.prisma.account.create({ data: createAccountDto })
 
-    if (!account) throw new BadRequestException;
+    if (!account) throw new BadRequestException();
 
     return account;
   }
@@ -31,7 +31,7 @@ export class AccountService {
       where: { id }
     });
 
-    if (!account) throw new NotFoundException
+    if (!account) throw new NotFoundException();
 
     return account;
   }
@@ -47,7 +47,7 @@ export class AccountService {
       data: updateAccountDto
     })
 
-    if (!updatedAccount) throw new BadRequestException;
+    if (!updatedAccount) throw new BadRequestException();
 
     return updatedAccount;
   }
@@ -57,6 +57,6 @@ export class AccountService {
       where: { id }
     })
 
-    if (!account) throw new NotFoundException
+    if (!account) throw new NotFoundException();
   }
 }
