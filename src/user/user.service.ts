@@ -37,6 +37,16 @@ export class UserService {
     return user;
   }
 
+  async findByUsername(username: string): Promise<User> {
+    const user: User = await this.prisma.user.findFirst({
+      where: { username }
+    })
+
+    if (!user) throw new NotFoundException();
+
+    return user;
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     if (updateUserDto.password) {
       let salt = await bcrypt.genSalt();
