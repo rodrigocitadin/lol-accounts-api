@@ -1,12 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
 @Controller('account')
 export class AccountController {
   constructor(private readonly accountService: AccountService) { }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createAccountDto: CreateAccountDto) {
     const account = await this.accountService.create(createAccountDto);
@@ -25,12 +27,14 @@ export class AccountController {
     return account;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {
     const account = this.accountService.update(id, updateAccountDto);
     return account;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     await this.accountService.remove(id);
