@@ -3,11 +3,13 @@ import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('account')
 export class AccountController {
   constructor(private readonly accountService: AccountService) { }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createAccountDto: CreateAccountDto) {
@@ -27,6 +29,7 @@ export class AccountController {
     return account;
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateAccountDto: UpdateAccountDto) {
@@ -34,6 +37,7 @@ export class AccountController {
     return account;
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
