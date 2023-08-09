@@ -19,14 +19,14 @@ export async function cryptPassword(password: string): Promise<string> {
   return encryptedText.toString('hex');
 }
 
-// export async function decryptPassword(encryptedText: Buffer): Promise<Buffer> {
-//   const key = (await promisify(scrypt)(gen, 'salt', 32)) as Buffer;
-//   const decipher = createDecipheriv('aes-256-ctr', key, iv);
+export async function decryptPassword(encryptedText: string): Promise<Buffer> {
+  const key = (await promisify(scrypt)(gen, 'salt', 32)) as Buffer;
+  const decipher = createDecipheriv('aes-256-ctr', key, iv);
 
-//   const decryptedText = Buffer.concat([
-//     decipher.update(encryptedText),
-//     decipher.final(),
-//   ]);
+  const decryptedText = Buffer.concat([
+    decipher.update(Buffer.from(encryptedText, 'hex')),
+    decipher.final(),
+  ]);
 
-//   return decryptedText;
-// }
+  return decryptedText;
+}
