@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsString, IsStrongPassword } from "class-validator";
+import { Decimal } from "@prisma/client/runtime/library";
+import { IsDecimal, IsEmail, IsNotEmpty, IsOptional, IsString, IsStrongPassword } from "class-validator";
 
 export class CreateUserDto {
   @ApiProperty()
@@ -18,4 +19,9 @@ export class CreateUserDto {
   @IsStrongPassword()
   @IsNotEmpty()
   password: string;
+
+  @ApiProperty()
+  @IsDecimal()
+  @IsOptional()
+  balance: Decimal
 }
