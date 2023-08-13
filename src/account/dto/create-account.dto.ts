@@ -1,6 +1,7 @@
 import { IsBoolean, IsDecimal, IsEmail, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, IsStrongPassword } from "class-validator";
-import { Region, Elo, Prisma } from '@prisma/client';
+import { Region, Elo } from '@prisma/client';
 import { ApiProperty } from "@nestjs/swagger";
+import { Decimal } from "@prisma/client/runtime/library";
 
 export class CreateAccountDto {
   @ApiProperty()
@@ -68,5 +69,5 @@ export class CreateAccountDto {
   @ApiProperty({ type: Number })
   @IsDecimal()
   @IsNotEmpty()
-  price: Prisma.Decimal;
+  price: Decimal;
 }
