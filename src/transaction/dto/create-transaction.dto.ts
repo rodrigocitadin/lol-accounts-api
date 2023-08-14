@@ -6,5 +6,10 @@ export class CreateTransactionDto {
   @ApiProperty()
   @IsUUID()
   @IsNotEmpty()
+  userId: UUID;
+
+  @ApiProperty()
+  @IsUUID()
+  @IsNotEmpty()
   accountId: UUID;
 }

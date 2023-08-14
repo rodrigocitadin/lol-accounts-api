@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -11,7 +11,7 @@ export class TransactionController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post(':id')
-  async create(@Param('id') id: string, @Body() createTransactionDto: CreateTransactionDto) {
-    await this.transactionService.create(id, createTransactionDto);
+  async create(@Body() createTransactionDto: CreateTransactionDto) {
+    await this.transactionService.create(createTransactionDto);
   }
 }
