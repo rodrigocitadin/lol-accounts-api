@@ -2,7 +2,7 @@
 
 You will need NodeJs, Docker and Git
 
-## Installation
+## Running the application
 
 First, clone the repo
 
@@ -18,18 +18,16 @@ $ npm install
 
 Create a `.env` file and paste the `.env.example` to it 
 
+Setup the database with Docker
+
+```bash
+$ docker compose up -d
+```
+
 Run Prisma migrations
 
 ```bash
-$ npx prisma 
-```
-
-## Running the app
-
-Start Docker
-
-```bash
-$ docker compose up
+$ npx prisma db push
 ```
 
 Build and run the application
@@ -122,11 +120,11 @@ $ npm run build
 	"championQuantity": 9,
 	"price": 12.99,
 
-  // Optional
-  "verified_email": false,
-  "region": Region,
-  "level": 30,
-  "elo": Elo
+	// Optional
+	"verified_email": false,
+	"region": "BR",
+	"level": 30,
+	"elo": "UNRANKED"
 }
 ```
 
