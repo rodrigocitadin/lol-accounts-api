@@ -33,7 +33,7 @@ $ npx prisma db push
 Build and run the application
 
 ```bash
-$ npm run build
+$ npm run build && npm run start:prod
 ```
 
 ## Endpoints User
