@@ -4,6 +4,8 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { AccountService } from 'src/account/account.service';
 import { UserService } from 'src/user/user.service';
 import { Decimal } from '@prisma/client/runtime/library';
+import { SellAccountDto } from './dto/sell-account.dto';
+import { decryptPassword } from 'src/account/utils/cryptPassword';
 
 @Injectable()
 export class TransactionService {
@@ -13,7 +15,7 @@ export class TransactionService {
     private userService: UserService,
   ) { }
 
-  async create(createTransactionDto: CreateTransactionDto): Promise<void> {
+  async create(createTransactionDto: CreateTransactionDto): Promise<SellAccountDto> {
     const account = await this.accountService.findOne(createTransactionDto.accountId);
     const { balance } = await this.userService.findOne(createTransactionDto.userId);
     const newBalance = Decimal.sub(balance, account.price);
@@ -43,5 +45,15 @@ export class TransactionService {
 
     await this.userService.update(createTransactionDto.userId, { balance: newBalance })
     await this.accountService.update(account.id, { sold: true })
+
+    const decryptedPassword: string = await decryptPassword(account.password);
+
+    const sellAccount: SellAccountDto = {
+      username: account.username,
+      email: account.email,
+      password: decryptedPassword,
+    }
+
+    return sellAccount;
   }
 }
