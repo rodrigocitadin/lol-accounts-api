@@ -19,7 +19,7 @@ export async function cryptPassword(password: string): Promise<string> {
   return encryptedText.toString('hex');
 }
 
-export async function decryptPassword(encryptedText: string): Promise<Buffer> {
+export async function decryptPassword(encryptedText: string): Promise<string> {
   const key = (await promisify(scrypt)(gen, 'salt', 32)) as Buffer;
   const decipher = createDecipheriv('aes-256-ctr', key, iv);
 
@@ -28,5 +28,5 @@ export async function decryptPassword(encryptedText: string): Promise<Buffer> {
     decipher.final(),
   ]);
 
-  return decryptedText;
+  return decryptedText.toString('hex');
 }
