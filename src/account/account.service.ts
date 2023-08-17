@@ -10,8 +10,7 @@ export class AccountService {
   constructor(private prisma: PrismaService) { }
 
   async create(createAccountDto: CreateAccountDto): Promise<Account> {
-    const encryptedPassword = await cryptPassword(createAccountDto.password);
-    createAccountDto.password = encryptedPassword;
+    createAccountDto.password = cryptPassword(createAccountDto.password);
 
     const account: Account = await this.prisma.account.create({ data: createAccountDto })
 
@@ -38,8 +37,7 @@ export class AccountService {
 
   async update(id: string, updateAccountDto: UpdateAccountDto): Promise<Account> {
     if (updateAccountDto.password) {
-      let encryptedPassword = await cryptPassword(updateAccountDto.password);
-      updateAccountDto.password = encryptedPassword;
+      updateAccountDto.password = cryptPassword(updateAccountDto.password);
     }
 
     const updatedAccount: Account = await this.prisma.account.update({
