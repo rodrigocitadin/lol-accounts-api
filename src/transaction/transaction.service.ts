@@ -46,7 +46,7 @@ export class TransactionService {
     await this.userService.update(createTransactionDto.userId, { balance: newBalance })
     await this.accountService.update(account.id, { sold: true })
 
-    const decryptedPassword: string = await decryptPassword(account.password);
+    const decryptedPassword: string = decryptPassword(account.password);
 
     const soldAccount: SoldAccountDto = {
       username: account.username,
