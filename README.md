@@ -18,6 +18,10 @@ $ npm install
 
 Create a `.env` file and paste the `.env.example` to it 
 
+```bash
+$ cp .env.example .env
+```
+
 Setup the database with Docker
 
 ```bash
