@@ -10,7 +10,7 @@ export class TransactionController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Post(':id')
+  @Post()
   async create(@Body() createTransactionDto: CreateTransactionDto) {
     await this.transactionService.create(createTransactionDto);
   }
