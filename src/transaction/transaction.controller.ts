@@ -12,6 +12,7 @@ export class TransactionController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createTransactionDto: CreateTransactionDto) {
-    await this.transactionService.create(createTransactionDto);
+    const soldAccount = await this.transactionService.create(createTransactionDto);
+    return soldAccount;
   }
 }
