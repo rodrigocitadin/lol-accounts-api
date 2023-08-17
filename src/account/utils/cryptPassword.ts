@@ -1,32 +1,28 @@
 import { ConfigService } from '@nestjs/config';
-import { createDecipheriv, createCipheriv, randomBytes, scrypt } from 'crypto';
-import { promisify } from 'util';
+import { scryptSync, createDecipheriv, randomBytes, createCipheriv } from 'node:crypto';
 
 const configService: ConfigService = new ConfigService;
 
-const gen = configService.get<string>('GEN_CRYPT_KEY');
+const algorithm = 'aes-192-cbc';
+const password = configService.get<string>('GEN_CRYPT_KEY');
+const key = scryptSync(password, 'salt', 24);
 const iv = randomBytes(16);
 
-export async function cryptPassword(password: string): Promise<string> {
-  const key = (await promisify(scrypt)(gen, 'salt', 32)) as Buffer;
-  const cipher = createCipheriv('aes-256-ctr', key, iv);
 
-  const encryptedText = Buffer.concat([
-    cipher.update(password),
-    cipher.final(),
-  ]);
+export function cryptPassword(password: string): string {
+  const cipher = createCipheriv(algorithm, key, iv);
 
-  return encryptedText.toString('hex');
+  let encrypted = cipher.update(password, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+
+  return encrypted;
 }
 
-export async function decryptPassword(encryptedText: string): Promise<string> {
-  const key = (await promisify(scrypt)(gen, 'salt', 32)) as Buffer;
-  const decipher = createDecipheriv('aes-256-ctr', key, iv);
+export function decryptPassword(encryptedText: string): string {
+  const decipher = createDecipheriv(algorithm, key, iv);
 
-  const decryptedText = Buffer.concat([
-    decipher.update(Buffer.from(encryptedText, 'hex')),
-    decipher.final(),
-  ]);
+  let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
 
-  return decryptedText.toString('hex');
+  return decrypted;
 }
