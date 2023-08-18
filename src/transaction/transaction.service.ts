@@ -38,6 +38,7 @@ export class TransactionService {
       data: {
         userId: createTransactionDto.userId,
         transactionId: transaction.id,
+        ammount: account.price,
       }
     })
 
