@@ -50,9 +50,10 @@ model User {
 }
 
 model UserTransaction {
-  id            String @id @default(uuid())
+  id            String  @id @default(uuid())
   userId        String
-  transactionId String @unique
+  transactionId String  @unique
+  ammount       Decimal
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
