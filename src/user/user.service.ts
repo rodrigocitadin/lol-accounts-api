@@ -4,12 +4,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma.service';
+import { ReturnUserDto } from './dto/return-user.dto';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) { }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<ReturnUserDto> {
     const salt = await bcrypt.genSalt();
     const encryptedPassword = await bcrypt.hash(createUserDto.password, salt);
     createUserDto.password = encryptedPassword;
@@ -18,7 +19,9 @@ export class UserService {
 
     if (!user) throw new BadRequestException();
 
-    return user;
+    const { createdAt, updatedAt, password, role, ...userReturn } = user
+
+    return userReturn;
   }
 
   async findAll(): Promise<User[]> {
