@@ -5,6 +5,7 @@ import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma.service';
 import { ReturnUserDto } from './dto/return-user.dto';
+import { Decimal } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class UserService {
@@ -55,7 +56,7 @@ export class UserService {
     return userReturn;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<ReturnUserDto> {
     if (updateUserDto.password) {
       let salt = await bcrypt.genSalt();
       let encryptedPassword = await bcrypt.hash(updateUserDto.password, salt);
@@ -69,7 +70,9 @@ export class UserService {
 
     if (!updatedUser) throw new BadRequestException();
 
-    return updatedUser
+    const { createdAt, updatedAt, password, role, ...userReturn } = updatedUser
+
+    return userReturn;
   }
 
   async remove(id: string): Promise<void> {
