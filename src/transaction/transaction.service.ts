@@ -6,6 +6,8 @@ import { UserService } from 'src/user/user.service';
 import { Decimal } from '@prisma/client/runtime/library';
 import { SoldAccountDto } from './dto/sold-account.dto';
 import { decryptPassword } from 'src/account/utils/cryptPassword';
+import { Transaction, UserTransaction } from '@prisma/client';
+import { ReturnFindDto } from './dto/return-find.dto';
 
 @Injectable()
 export class TransactionService {
@@ -55,5 +57,15 @@ export class TransactionService {
     }
 
     return soldAccount;
+  }
+
+  async findById(id: string): Promise<ReturnFindDto> {
+    const received = await this.prisma.transaction.findMany({ where: { id } });
+    const sent = await this.prisma.userTransaction.findMany({ where: { id } });
+
+    return {
+      receivedTransactions: received,
+      sentTransactions: sent,
+    }
   }
 }
