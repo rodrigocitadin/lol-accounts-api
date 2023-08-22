@@ -6,7 +6,6 @@ import { UserService } from 'src/user/user.service';
 import { Decimal } from '@prisma/client/runtime/library';
 import { SoldAccountDto } from './dto/sold-account.dto';
 import { decryptPassword } from 'src/account/utils/cryptPassword';
-import { Transaction, UserTransaction } from '@prisma/client';
 import { ReturnFindDto } from './dto/return-find.dto';
 
 @Injectable()
