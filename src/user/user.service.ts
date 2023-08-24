@@ -5,7 +5,6 @@ import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma.service';
 import { ReturnUserDto } from './dto/return-user.dto';
-import { Decimal } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class UserService {
@@ -81,5 +80,18 @@ export class UserService {
     })
 
     if (!user) throw new NotFoundException()
+  }
+
+  async givePass(username: string): Promise<string> {
+    const user = await this.prisma.user.findFirst({ 
+      where: { username }, 
+      select: {
+        password: true
+      }
+    }) 
+
+    if (!user) throw new NotFoundException();
+
+    return user.password;
   }
 }
