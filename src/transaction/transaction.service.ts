@@ -64,8 +64,8 @@ export class TransactionService {
   }
 
   async findById(id: string): Promise<ReturnFindDto> {
-    const received = await this.prisma.transaction.findMany({ where: { id } });
-    const sent = await this.prisma.userTransaction.findMany({ where: { id } });
+    const received = await this.prisma.transaction.findMany({ where: { payeeId: id } });
+    const sent = await this.prisma.userTransaction.findMany({ where: { userId: id } });
 
     return {
       receivedTransactions: received,
