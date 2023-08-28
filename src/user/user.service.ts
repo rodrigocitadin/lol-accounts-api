@@ -82,16 +82,22 @@ export class UserService {
     if (!user) throw new NotFoundException()
   }
 
-  async givePass(username: string): Promise<string> {
+  async givePass(username: string): Promise<{
+    id: string,
+    username: string,
+    password: string
+  }> {
     const user = await this.prisma.user.findFirst({ 
       where: { username }, 
       select: {
+        id: true,
+        username: true,
         password: true
       }
     }) 
 
     if (!user) throw new NotFoundException();
 
-    return user.password;
+    return user;
   }
 }
