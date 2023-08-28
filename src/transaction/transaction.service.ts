@@ -19,9 +19,9 @@ export class TransactionService {
   async create(createTransactionDto: CreateTransactionDto): Promise<SoldAccountDto> {
     const account = await this.accountService.findOne(createTransactionDto.accountId);
     const { balance } = await this.userService.findOne(createTransactionDto.userId);
-    const newBalance = Decimal.sub(balance, account.price);
+    const newPayerBalance = Decimal.sub(balance, account.price);
 
-    if (newBalance.lessThanOrEqualTo(0)) {
+    if (newPayerBalance.lessThanOrEqualTo(0)) {
       throw new BadRequestException();
     }
 
@@ -45,8 +45,12 @@ export class TransactionService {
       throw new BadRequestException();
     }
 
-    await this.userService.update(createTransactionDto.userId, { balance: newBalance })
-    await this.accountService.update(account.id, { sold: true })
+    const payee = await this.userService.findOne(account.ownerId);
+    const newPayeeBalance = Decimal.add(payee.balance, account.price);
+
+    await this.userService.update(account.ownerId, { balance: newPayeeBalance });
+    await this.userService.update(createTransactionDto.userId, { balance: newPayerBalance });
+    await this.accountService.update(account.id, { sold: true });
 
     const decryptedPassword: string = decryptPassword(account.password);
 
