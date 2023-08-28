@@ -16,7 +16,7 @@ export class TransactionController {
     return soldAccount;
   }
 
-  @Get()
+  @Get(':id')
   async findById(@Param('id') id: string) {
     const transactions = await this.transactionService.findById(id);
     return transactions;
