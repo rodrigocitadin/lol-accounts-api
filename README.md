@@ -161,3 +161,31 @@ $ npm run build && npm run start:prod
 ### Get all accounts
 
 **GET:** `localhost:3000/account`
+
+## Endpoints Transaction
+
+### Create a transaction
+
+**POST:** `localhost:3000/transaction`
+
+**Header:** `Authorization: Bearer`
+
+**Payload:**
+
+```json
+{
+    "userId": "userId",
+    "accountId": "accountId"
+}
+```
+
+**Note:** *user must have enough balance to purchase an account*
+
+---
+
+### Get a transaction
+
+**GET:** `localhost:3000/transaction/:user_id`
+
+**Header:** `Authorization: Bearer`
+
