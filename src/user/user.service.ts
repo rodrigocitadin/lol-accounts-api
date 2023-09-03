@@ -36,15 +36,19 @@ export class UserService {
   }
 
   async findOne(id: string): Promise<ReturnUserDto> {
-    const user: User = await this.prisma.user.findFirst({
-      where: { id }
+    const user: ReturnUserDto = await this.prisma.user.findFirst({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        balance: true,
+        username: true,
+      }
     })
 
     if (!user) throw new NotFoundException();
 
-    const { createdAt, updatedAt, password, role, ...userReturn } = user
-
-    return userReturn;
+    return user;
   }
 
   async findByUsername(username: string): Promise<ReturnUserDto> {
