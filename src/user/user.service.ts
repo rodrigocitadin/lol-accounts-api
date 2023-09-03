@@ -22,13 +22,14 @@ export class UserService {
     const encryptedPassword = await bcrypt.hash(createUserDto.password, salt);
     createUserDto.password = encryptedPassword;
 
-    const user: User = await this.prisma.user.create({ data: createUserDto });
+    const user: ReturnUserDto = await this.prisma.user.create({ 
+      data: createUserDto,
+      select: this.returnUser,
+    });
 
     if (!user) throw new BadRequestException();
 
-    const { createdAt, updatedAt, password, role, ...userReturn } = user
-
-    return userReturn;
+    return user;
   }
 
   async findAll(): Promise<ReturnUserDto[]> {
