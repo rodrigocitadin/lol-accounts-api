@@ -17,7 +17,7 @@ export class TransactionService {
   ) { }
 
   async create(createTransactionDto: CreateTransactionDto): Promise<SoldAccountDto> {
-    const account = await this.accountService.findOne(createTransactionDto.accountId);
+    const account = await this.prisma.account.findFirst({ where: { id: createTransactionDto.accountId } })
     const { balance } = await this.userService.findOne(createTransactionDto.userId);
     const newPayerBalance = Decimal.sub(balance, account.price);
 
