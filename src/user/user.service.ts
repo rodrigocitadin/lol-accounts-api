@@ -10,6 +10,13 @@ import { ReturnUserDto } from './dto/return-user.dto';
 export class UserService {
   constructor(private prisma: PrismaService) { }
 
+  returnUser = {
+    id: true,
+    email: true,
+    balance: true,
+    username: true,
+  }
+
   async create(createUserDto: CreateUserDto): Promise<ReturnUserDto> {
     const salt = await bcrypt.genSalt();
     const encryptedPassword = await bcrypt.hash(createUserDto.password, salt);
@@ -25,12 +32,7 @@ export class UserService {
   }
 
   async findAll(): Promise<ReturnUserDto[]> {
-    const users: ReturnUserDto[] = await this.prisma.user.findMany({ select: {
-      id: true,
-      email: true,
-      balance: true,
-      username: true,
-    }});
+    const users: ReturnUserDto[] = await this.prisma.user.findMany({ select: this.returnUser });
 
     return users;
   }
@@ -38,12 +40,7 @@ export class UserService {
   async findOne(id: string): Promise<ReturnUserDto> {
     const user: ReturnUserDto = await this.prisma.user.findFirst({
       where: { id },
-      select: {
-        id: true,
-        email: true,
-        balance: true,
-        username: true,
-      }
+      select: this.returnUser
     })
 
     if (!user) throw new NotFoundException();
@@ -54,12 +51,7 @@ export class UserService {
   async findByUsername(username: string): Promise<ReturnUserDto> {
     const user: ReturnUserDto = await this.prisma.user.findFirst({
       where: { username },
-      select: {
-        id: true,
-        email: true,
-        balance: true,
-        username: true,
-      }
+      select: this.returnUser
     })
 
     if (!user) throw new NotFoundException();
@@ -99,14 +91,14 @@ export class UserService {
     username: string,
     password: string
   }> {
-    const user = await this.prisma.user.findFirst({ 
-      where: { username }, 
+    const user = await this.prisma.user.findFirst({
+      where: { username },
       select: {
         id: true,
         username: true,
         password: true
       }
-    }) 
+    })
 
     if (!user) throw new NotFoundException();
 
