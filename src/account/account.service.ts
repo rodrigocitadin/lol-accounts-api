@@ -8,23 +8,24 @@ import { ReturnAccountDto } from './dto/return-account.dto';
 
 @Injectable()
 export class AccountService {
-  constructor(private prisma: PrismaService) { }
-
-  returnAccount = {
-    id: true,
-    username: true,
-    email: true,
-    verifiedEmail: true,
-    ownerId: true,
-    sold: true,
-    region: true,
-    level: true,
-    elo: true,
-    blueEssence: true,
-    skinQuantity: true,
-    championQuantity: true,
-    price: true,
-  }
+  constructor(
+    private prisma: PrismaService,
+    private returnAccount = {
+      id: true,
+      username: true,
+      email: true,
+      verifiedEmail: true,
+      ownerId: true,
+      sold: true,
+      region: true,
+      level: true,
+      elo: true,
+      blueEssence: true,
+      skinQuantity: true,
+      championQuantity: true,
+      price: true,
+    }
+  ) { }
 
   async create(createAccountDto: CreateAccountDto): Promise<ReturnAccountDto> {
     createAccountDto.password = cryptPassword(createAccountDto.password);

@@ -18,7 +18,7 @@ export class TransactionService {
 
   async create(createTransactionDto: CreateTransactionDto): Promise<SoldAccountDto> {
     const account = await this.prisma.account.findFirst({ where: { id: createTransactionDto.accountId } })
-    const { balance } = await this.userService.findOne(createTransactionDto.userId);
+    const { balance } = await this.userService.findById(createTransactionDto.userId);
     const newPayerBalance = Decimal.sub(balance, account.price);
 
     if (newPayerBalance.lessThanOrEqualTo(0)) {
@@ -45,7 +45,7 @@ export class TransactionService {
       throw new BadRequestException();
     }
 
-    const payee = await this.userService.findOne(account.ownerId);
+    const payee = await this.userService.findById(account.ownerId);
     const newPayeeBalance = Decimal.add(payee.balance, account.price);
 
     await this.userService.update(account.ownerId, { balance: newPayeeBalance });
