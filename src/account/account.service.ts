@@ -17,15 +17,8 @@ export class AccountService {
     id: true,
     username: true,
     email: true,
-    verifiedEmail: true,
     ownerId: true,
     sold: true,
-    region: true,
-    level: true,
-    elo: true,
-    blueEssence: true,
-    skinQuantity: true,
-    championQuantity: true,
     price: true,
   }
 
