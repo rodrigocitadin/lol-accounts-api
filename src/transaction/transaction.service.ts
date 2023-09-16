@@ -5,12 +5,13 @@ import { AccountService } from 'src/account/account.service';
 import { UserService } from 'src/user/user.service';
 import { Decimal } from '@prisma/client/runtime/library';
 import { SoldAccountDto } from './dto/sold-account.dto';
-import { decryptPassword } from 'src/account/utils/cryptPassword';
 import { ReturnFindDto } from './dto/return-find.dto';
+import { CryptService } from 'src/crypt/crypt.service';
 
 @Injectable()
 export class TransactionService {
   constructor(
+    private crypt: CryptService,
     private prisma: PrismaService,
     private accountService: AccountService,
     private userService: UserService,
@@ -18,7 +19,7 @@ export class TransactionService {
 
   async create(createTransactionDto: CreateTransactionDto): Promise<SoldAccountDto> {
     const account = await this.prisma.account.findFirst({ where: { id: createTransactionDto.accountId } })
-    const { balance } = await this.userService.findOne(createTransactionDto.userId);
+    const { balance } = await this.userService.findById(createTransactionDto.userId);
     const newPayerBalance = Decimal.sub(balance, account.price);
 
     if (newPayerBalance.lessThanOrEqualTo(0)) {
@@ -45,14 +46,14 @@ export class TransactionService {
       throw new BadRequestException();
     }
 
-    const payee = await this.userService.findOne(account.ownerId);
+    const payee = await this.userService.findById(account.ownerId);
     const newPayeeBalance = Decimal.add(payee.balance, account.price);
 
     await this.userService.update(account.ownerId, { balance: newPayeeBalance });
     await this.userService.update(createTransactionDto.userId, { balance: newPayerBalance });
     await this.accountService.update(account.id, { sold: true });
 
-    const decryptedPassword: string = decryptPassword(account.password);
+    const decryptedPassword: string = this.crypt.decryptPassword(account.password);
 
     const soldAccount: SoldAccountDto = {
       username: account.username,

@@ -3,31 +3,27 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { PrismaService } from 'src/prisma.service';
 import { Account } from '@prisma/client';
-import { cryptPassword } from './utils/cryptPassword';
 import { ReturnAccountDto } from './dto/return-account.dto';
+import { CryptService } from 'src/crypt/crypt.service';
 
 @Injectable()
 export class AccountService {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private crypt: CryptService,
+    private prisma: PrismaService,
+  ) { }
 
-  returnAccount = {
+  private returnAccount = {
     id: true,
     username: true,
     email: true,
-    verifiedEmail: true,
     ownerId: true,
     sold: true,
-    region: true,
-    level: true,
-    elo: true,
-    blueEssence: true,
-    skinQuantity: true,
-    championQuantity: true,
     price: true,
   }
 
   async create(createAccountDto: CreateAccountDto): Promise<ReturnAccountDto> {
-    createAccountDto.password = cryptPassword(createAccountDto.password);
+    createAccountDto.password = this.crypt.cryptPassword(createAccountDto.password);
 
     const account: ReturnAccountDto = await this.prisma.account.create({
       data: createAccountDto,
@@ -60,7 +56,7 @@ export class AccountService {
 
   async update(id: string, updateAccountDto: UpdateAccountDto): Promise<ReturnAccountDto> {
     if (updateAccountDto.password) {
-      updateAccountDto.password = cryptPassword(updateAccountDto.password);
+      updateAccountDto.password = this.crypt.cryptPassword(updateAccountDto.password);
     }
 
     const updatedAccount: ReturnAccountDto = await this.prisma.account.update({

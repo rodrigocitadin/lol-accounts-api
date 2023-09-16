@@ -8,9 +8,11 @@ import { ReturnUserDto } from './dto/return-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private prisma: PrismaService,
+  ) { }
 
-  returnUser = {
+  private returnUser = {
     id: true,
     email: true,
     balance: true,
@@ -22,7 +24,7 @@ export class UserService {
     const encryptedPassword = await bcrypt.hash(createUserDto.password, salt);
     createUserDto.password = encryptedPassword;
 
-    const user: ReturnUserDto = await this.prisma.user.create({ 
+    const user: ReturnUserDto = await this.prisma.user.create({
       data: createUserDto,
       select: this.returnUser,
     });
@@ -38,7 +40,7 @@ export class UserService {
     return users;
   }
 
-  async findOne(id: string): Promise<ReturnUserDto> {
+  async findById(id: string): Promise<ReturnUserDto> {
     const user: ReturnUserDto = await this.prisma.user.findFirst({
       where: { id },
       select: this.returnUser
