@@ -11,22 +11,23 @@ export class AccountService {
   constructor(
     private crypt: CryptService,
     private prisma: PrismaService,
-    private returnAccount = {
-      id: true,
-      username: true,
-      email: true,
-      verifiedEmail: true,
-      ownerId: true,
-      sold: true,
-      region: true,
-      level: true,
-      elo: true,
-      blueEssence: true,
-      skinQuantity: true,
-      championQuantity: true,
-      price: true,
-    }
   ) { }
+
+  private returnAccount = {
+    id: true,
+    username: true,
+    email: true,
+    verifiedEmail: true,
+    ownerId: true,
+    sold: true,
+    region: true,
+    level: true,
+    elo: true,
+    blueEssence: true,
+    skinQuantity: true,
+    championQuantity: true,
+    price: true,
+  }
 
   async create(createAccountDto: CreateAccountDto): Promise<ReturnAccountDto> {
     createAccountDto.password = this.crypt.cryptPassword(createAccountDto.password);

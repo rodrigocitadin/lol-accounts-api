@@ -5,12 +5,13 @@ import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'crypt
 @Injectable()
 export class CryptService {
   constructor(
-    configService: ConfigService,
-    gen = configService.get<string>('GEN_CRYPT_KEY'),
-    private algorithm = "aes-192-cbc",
-    private key = scryptSync(gen, 'salt', 24),
-    private iv = randomBytes(16)
+    private configService: ConfigService,
   ) { }
+
+  private gen = this.configService.get<string>('GEN_CRYPT_KEY');
+  private key = scryptSync(this.gen, 'salt', 24);
+  private algorithm = "aes-192-cbc";
+  private iv = randomBytes(16);
 
   cryptPassword(psw: string): string {
     const cipher = createCipheriv(this.algorithm, this.key, this.iv);

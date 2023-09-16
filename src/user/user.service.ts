@@ -10,14 +10,14 @@ import { ReturnUserDto } from './dto/return-user.dto';
 export class UserService {
   constructor(
     private prisma: PrismaService,
-    private returnUser = {
-      id: true,
-      email: true,
-      balance: true,
-      username: true,
-    }
   ) { }
 
+  private returnUser = {
+    id: true,
+    email: true,
+    balance: true,
+    username: true,
+  }
 
   async create(createUserDto: CreateUserDto): Promise<ReturnUserDto> {
     const salt = await bcrypt.genSalt();

@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [ConfigModule],
-  providers: [CryptService]
+  providers: [CryptService],
+  exports: [CryptService],
 })
 export class CryptModule {}
