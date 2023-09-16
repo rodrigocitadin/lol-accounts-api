@@ -8,6 +8,6 @@ import { TransactionModule } from './transaction/transaction.module';
 import { CryptModule } from './crypt/crypt.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), PrismaModule, AccountModule, UserModule, AuthModule, TransactionModule, CryptModule],
+  imports: [ConfigModule.forRoot({isGlobal: true}), PrismaModule, AccountModule, UserModule, AuthModule, TransactionModule, CryptModule],
 })
 export class AppModule { }
