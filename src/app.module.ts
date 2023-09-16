@@ -5,8 +5,9 @@ import { AccountModule } from './account/account.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { CryptModule } from './crypt/crypt.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), PrismaModule, AccountModule, UserModule, AuthModule, TransactionModule],
+  imports: [ConfigModule.forRoot(), PrismaModule, AccountModule, UserModule, AuthModule, TransactionModule, CryptModule],
 })
 export class AppModule { }
