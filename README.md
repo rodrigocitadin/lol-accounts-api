@@ -1,43 +1,25 @@
 ## Pre-requisites
 
-You will need NodeJs, Docker and Git
+You will need Docker
 
 ## Running the application
 
 First, clone the repo
 
 ```bash
-$ git clone git@github.com:rodrigocitadin/lol-accounts-backend.git && cd lol-accounts-backend
+git clone https://github.com/rodrigocitadin/lol-accounts-api/ && cd lol-accounts-backend
 ```
 
-Install npm packages
+copy .env
 
 ```bash
-$ npm install
+cp .env.example .env
 ```
 
-Create a `.env` file and paste the `.env.example` to it 
+then run the Docker Compose
 
-```bash
-$ cp .env.example .env
-```
-
-Setup the database with Docker
-
-```bash
-$ docker compose up -d
-```
-
-Run Prisma migrations
-
-```bash
-$ npx prisma db push
-```
-
-Build and run the application
-
-```bash
-$ npm run build && npm run start:prod
+```sh
+docker compose up
 ```
 
 ## Endpoints User
@@ -188,4 +170,5 @@ $ npm run build && npm run start:prod
 **GET:** `localhost:3000/transaction/:user_id`
 
 **Header:** `Authorization: Bearer`
+
 
