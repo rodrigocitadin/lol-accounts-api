@@ -1,6 +1,18 @@
 version: '2.0'
 
 services:
+  api:
+    container_name: lol_accounts_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - database
+    env_file:
+      - .env
+
   database:
     container_name: lol_accounts_db
     image: postgres:13
