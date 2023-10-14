@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { Decimal } from '@prisma/client/runtime/library';
 
 @Controller('user')
 export class UserController {
@@ -37,5 +38,12 @@ export class UserController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     await this.userService.remove(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('fund/:id')
+  async addBalance(@Param('id') id: string, @Body() data: { balance: Decimal }) {
+    const user = await this.userService.addBalance(id, data);
+    return user;
   }
 }
