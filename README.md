@@ -7,7 +7,7 @@ You will need Docker
 First, clone the repo
 
 ```bash
-git clone https://github.com/rodrigocitadin/lol-accounts-api/ && cd lol-accounts-backend
+git clone https://github.com/rodrigocitadin/lol-accounts-api/ && cd lol-accounts-api
 ```
 
 copy .env
