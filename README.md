@@ -56,6 +56,16 @@ to authenticate a user, you need to inform your email and password
 }
 ```
 
+to add funds, you need to inform how much you want to add, and enter your id. You must be logged in
+
+**PATCH** `localhost:3000/user/:user_id`
+
+```json
+{
+    "balance": 21.50
+}
+```
+
 ## Account
 
 to add an account, you must be logged and inform your id, table id, and the date
