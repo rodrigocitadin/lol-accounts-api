@@ -78,7 +78,7 @@ to add an account, you must be logged and inform your id, table id, and the date
 	"email": "lol_email",
 	"password": "L0L_Password123!",
 	"ownerId": "user_id",
-	"price": 12.99,
+	"price": 12.99
 }
 ```
 
