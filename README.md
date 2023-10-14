@@ -22,153 +22,69 @@ then run the Docker Compose
 docker compose up
 ```
 
-## Endpoints User
+## System resume
 
-### Create an user
+- you can create an account to add your League of Legends accounts
+- you can add funds to your account
+- you can buy lol accounts
+- you can sell lol accounts
 
-**POST:** `localhost:3000/user`
+***All endpoints except create user and account and obviously authentication you must be logged in (bearer token)***
 
-**Payload:**
+## User
+
+to create a user, you need to inform your username, email, and password. Email and username must be unique
+
+**POST** `localhost:3000/user`
 
 ```json
 {
-	"username": "unique_username",
-	"email": "valid_and_unique@email.com",
-	"password": "Strong_Password123!"
+    "username": "your_username",
+    "email": "your@email",
+    "password": "5tr0ng!P4ssword"
 }
 ```
 
----
+to authenticate a user, you need to inform your email and password
 
-### Update an user
-
-**PATCH:** `localhost:3000/user/:user_id` 
-
-**Header:** `Authorization: Bearer`
-
-**Payload:** Same as the create user but optional
-
----
-
-### Delete an user
-
-**DELETE:** `localhost:3000/user/:user_id` 
-
-**Header:** `Authorization: Bearer`
-
----
-
-### Get an user
-
-**GET:** `localhost:3000/user/:user_id` 
-
----
-
-### Get all users
-
-**GET:** `localhost:3000/user` 
-
----
-
-## Endpoints Auth
-
-### Login as user
-
-**POST:** `localhost:3000/auth/login`
-
-**Payload:**
+**POST** `localhost:3000/auth/login`
 
 ```json
 {
-	"username": "your_username",
-	"password": "your_password"
+    "username": "your_username",
+    "password": "5tr0ng!P4ssword"
 }
 ```
 
----
+## Account
 
-## Endpoints Account
+to add an account, you must be logged and inform your id, table id, and the date
 
-### Create an account
-
-**POST:** `localhost:3000/account`
-
-**Payload:**
+**POST** `localhost:3000/account`
 
 ```json
 {
-	"username": "unique_username",
-	"email": "account_username",
-	"password": "Strong_Password123!",
+	"username": "lol_username",
+	"email": "lol_email",
+	"password": "L0L_Password123!",
 	"ownerId": "user_id",
-	"blueEssence": 50000,
-	"skinQuantity": 3,
-	"championQuantity": 9,
 	"price": 12.99,
-
-	// Optional
-	"verified_email": false,
-	"region": "BR",
-	"level": 30,
-	"elo": "UNRANKED"
 }
 ```
 
----
+## Transaction
 
-### Update an account
-
-**PATCH:** `localhost:3000/account/:account_id` 
-
-**Header:** `Authorization: Bearer`
-
-**Payload:** Same as the create account but optional
-
----
-
-### Delete an account
-
-**DELETE:** `localhost:3000/account/:account_id` 
-
-**Header:** `Authorization: Bearer`
-
----
-
-### Get an account
-
-**GET:** `localhost:3000/account/:account_id` 
-
----
-
-### Get all accounts
-
-**GET:** `localhost:3000/account`
-
-## Endpoints Transaction
-
-### Create a transaction
+To make a transaction, you must be logged in and enter your user id and account id. You will need sufficient balance
 
 **POST:** `localhost:3000/transaction`
 
-**Header:** `Authorization: Bearer`
-
-**Payload:**
-
 ```json
 {
-    "userId": "userId",
-    "accountId": "accountId"
+    "userId": "user_id",
+    "accountId": "account_id"
 }
 ```
 
-**Note:** *user must have enough balance to purchase an account*
-
----
-
-### Get a transaction
+To obtain your transactions you need to be logged in and enter your id
 
 **GET:** `localhost:3000/transaction/:user_id`
-
-**Header:** `Authorization: Bearer`
-
-
