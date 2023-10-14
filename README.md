@@ -58,7 +58,7 @@ to authenticate a user, you need to inform your email and password
 
 to add funds, you need to inform how much you want to add, and enter your id. You must be logged in
 
-**PATCH** `localhost:3000/user/:user_id`
+**PATCH** `localhost:3000/user/fund/:user_id`
 
 ```json
 {
