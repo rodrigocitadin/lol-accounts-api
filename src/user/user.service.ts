@@ -5,6 +5,7 @@ import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma.service';
 import { ReturnUserDto } from './dto/return-user.dto';
+import { Decimal } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class UserService {
@@ -105,5 +106,19 @@ export class UserService {
     if (!user) throw new NotFoundException();
 
     return user;
+  }
+
+  async addBalance(id: string, data: { balance: Decimal }): Promise<ReturnUserDto> {
+    const user = await this.findById(id);
+
+    const newBalance = Decimal.add(user.balance, data.balance);
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id },
+      data: { balance: newBalance },
+      select: this.returnUser
+    })
+
+    return updatedUser;
   }
 }
