@@ -29,7 +29,7 @@ docker compose up
 - you can buy lol accounts
 - you can sell lol accounts
 
-***All endpoints except create user and account and obviously authentication you must be logged in (bearer token)***
+***All endpoints except create user, account and obviously authentication you must be logged in (bearer token)***
 
 ## User
 
