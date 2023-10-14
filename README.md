@@ -88,3 +88,11 @@ To make a transaction, you must be logged in and enter your user id and account 
 To obtain your transactions you need to be logged in and enter your id
 
 **GET:** `localhost:3000/transaction/:user_id`
+
+
+## Things to Implement
+
+- More account information
+- Add account photos
+- Front-end
+  
