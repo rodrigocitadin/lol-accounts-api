@@ -17,11 +17,11 @@ export class AccountService {
     createAccountDto.password = this.crypt.cryptPassword(createAccountDto.password);
 
     try {
-    const account: ReturnAccountDto = await this.prisma.account.create({
-      data: createAccountDto,
-      select: returnAccountQuery,
-    })
-      
+      const account: ReturnAccountDto = await this.prisma.account.create({
+        data: createAccountDto,
+        select: returnAccountQuery,
+      })
+
       return account;
     }
     catch (error) {
@@ -64,11 +64,11 @@ export class AccountService {
     }
 
     try {
-    const updatedAccount: ReturnAccountDto = await this.prisma.account.update({
-      where: { id },
-      data: updateAccountDto,
-      select: returnAccountQuery,
-    })
+      const updatedAccount: ReturnAccountDto = await this.prisma.account.update({
+        where: { id },
+        data: updateAccountDto,
+        select: returnAccountQuery,
+      })
 
       return updatedAccount;
     }
