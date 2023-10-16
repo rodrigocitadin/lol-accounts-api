@@ -3,7 +3,7 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { PrismaService } from 'src/prisma.service';
 import { Account } from '@prisma/client';
-import { ReturnAccountDto } from './dto/return-account.dto';
+import { ReturnAccountDto, returnAccountQuery } from './dto/return-account.dto';
 import { CryptService } from 'src/crypt/crypt.service';
 
 @Injectable()
@@ -13,21 +13,12 @@ export class AccountService {
     private prisma: PrismaService,
   ) { }
 
-  private returnAccount = {
-    id: true,
-    username: true,
-    email: true,
-    ownerId: true,
-    sold: true,
-    price: true,
-  }
-
   async create(createAccountDto: CreateAccountDto): Promise<ReturnAccountDto> {
     createAccountDto.password = this.crypt.cryptPassword(createAccountDto.password);
 
     const account: ReturnAccountDto = await this.prisma.account.create({
       data: createAccountDto,
-      select: this.returnAccount,
+      select: returnAccountQuery,
     })
 
     if (!account) throw new BadRequestException();
@@ -37,7 +28,7 @@ export class AccountService {
 
   async findAll(): Promise<ReturnAccountDto[]> {
     const accounts: ReturnAccountDto[] = await this.prisma.account.findMany({
-      select: this.returnAccount,
+      select: returnAccountQuery,
     });
 
     return accounts;
@@ -46,7 +37,7 @@ export class AccountService {
   async findById(id: string): Promise<ReturnAccountDto> {
     const account: ReturnAccountDto = await this.prisma.account.findFirst({
       where: { id },
-      select: this.returnAccount,
+      select: returnAccountQuery,
     });
 
     if (!account) throw new NotFoundException();
@@ -72,7 +63,7 @@ export class AccountService {
     const updatedAccount: ReturnAccountDto = await this.prisma.account.update({
       where: { id },
       data: updateAccountDto,
-      select: this.returnAccount,
+      select: returnAccountQuery,
     })
 
     if (!updatedAccount) throw new BadRequestException();

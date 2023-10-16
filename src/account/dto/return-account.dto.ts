@@ -6,3 +6,12 @@
 import { Account } from "@prisma/client";
 
 export type ReturnAccountDto = Omit<Account, "password" | "createdAt" | "updatedAt">
+
+export const returnAccountQuery = {
+  id: true,
+  username: true,
+  email: true,
+  ownerId: true,
+  sold: true,
+  price: true,
+}
