@@ -24,8 +24,8 @@ export class AccountController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const account = await this.accountService.findOne(id);
+  async findById(@Param('id') id: string) {
+    const account = await this.accountService.findById(id);
     return account;
   }
 

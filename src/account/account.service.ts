@@ -43,10 +43,20 @@ export class AccountService {
     return accounts;
   }
 
-  async findOne(id: string): Promise<ReturnAccountDto> {
+  async findById(id: string): Promise<ReturnAccountDto> {
     const account: ReturnAccountDto = await this.prisma.account.findFirst({
       where: { id },
       select: this.returnAccount,
+    });
+
+    if (!account) throw new NotFoundException();
+
+    return account;
+  }
+
+  async findByIdWithPsw(id: string): Promise<Account> {
+    const account: Account = await this.prisma.account.findFirst({
+      where: { id },
     });
 
     if (!account) throw new NotFoundException();
