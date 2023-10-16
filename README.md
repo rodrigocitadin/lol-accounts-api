@@ -102,7 +102,7 @@ To obtain your transactions you need to be logged in and enter your id
 
 ## Things to Implement
 
-- More account information
-- Add account photos
-- Front-end
+- [ ] More account information
+- [ ] Add account photos
+- [ ] Front-end
   
