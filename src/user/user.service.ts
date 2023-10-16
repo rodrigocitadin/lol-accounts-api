@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma.service';
-import { ReturnUserDto } from './dto/return-user.dto';
+import { ReturnUserDto, returnUserQuery } from './dto/return-user.dto';
 import { Decimal } from '@prisma/client/runtime/library';
 
 @Injectable()
@@ -13,13 +13,6 @@ export class UserService {
     private prisma: PrismaService,
   ) { }
 
-  private returnUser = {
-    id: true,
-    email: true,
-    balance: true,
-    username: true,
-  }
-
   async create(createUserDto: CreateUserDto): Promise<ReturnUserDto> {
     const salt = await bcrypt.genSalt();
     const encryptedPassword = await bcrypt.hash(createUserDto.password, salt);
@@ -27,7 +20,7 @@ export class UserService {
 
     const user: ReturnUserDto = await this.prisma.user.create({
       data: createUserDto,
-      select: this.returnUser,
+      select: returnUserQuery,
     });
 
     if (!user) throw new BadRequestException();
@@ -36,7 +29,7 @@ export class UserService {
   }
 
   async findAll(): Promise<ReturnUserDto[]> {
-    const users: ReturnUserDto[] = await this.prisma.user.findMany({ select: this.returnUser });
+    const users: ReturnUserDto[] = await this.prisma.user.findMany({ select: returnUserQuery });
 
     return users;
   }
@@ -44,7 +37,7 @@ export class UserService {
   async findById(id: string): Promise<ReturnUserDto> {
     const user: ReturnUserDto = await this.prisma.user.findFirst({
       where: { id },
-      select: this.returnUser
+      select: returnUserQuery
     })
 
     if (!user) throw new NotFoundException();
@@ -55,7 +48,7 @@ export class UserService {
   async findByUsername(username: string): Promise<ReturnUserDto> {
     const user: ReturnUserDto = await this.prisma.user.findFirst({
       where: { username },
-      select: this.returnUser
+      select: returnUserQuery
     })
 
     if (!user) throw new NotFoundException();
@@ -73,7 +66,7 @@ export class UserService {
     const updatedUser: ReturnUserDto = await this.prisma.user.update({
       where: { id },
       data: updateUserDto,
-      select: this.returnUser,
+      select: returnUserQuery,
     })
 
     if (!updatedUser) throw new BadRequestException();
@@ -116,7 +109,7 @@ export class UserService {
     const updatedUser = await this.prisma.user.update({
       where: { id },
       data: { balance: newBalance },
-      select: this.returnUser
+      select: returnUserQuery
     })
 
     return updatedUser;
