@@ -63,15 +63,18 @@ export class AccountService {
       updateAccountDto.password = this.crypt.cryptPassword(updateAccountDto.password);
     }
 
+    try {
     const updatedAccount: ReturnAccountDto = await this.prisma.account.update({
       where: { id },
       data: updateAccountDto,
       select: returnAccountQuery,
     })
 
-    if (!updatedAccount) throw new BadRequestException();
-
-    return updatedAccount;
+      return updatedAccount;
+    }
+    catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   async remove(id: string): Promise<void> {
