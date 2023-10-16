@@ -16,14 +16,17 @@ export class AccountService {
   async create(createAccountDto: CreateAccountDto): Promise<ReturnAccountDto> {
     createAccountDto.password = this.crypt.cryptPassword(createAccountDto.password);
 
+    try {
     const account: ReturnAccountDto = await this.prisma.account.create({
       data: createAccountDto,
       select: returnAccountQuery,
     })
-
-    if (!account) throw new BadRequestException();
-
-    return account;
+      
+      return account;
+    }
+    catch (error) {
+      throw new BadRequestException(error.name);
+    }
   }
 
   async findAll(): Promise<ReturnAccountDto[]> {
