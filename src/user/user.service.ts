@@ -66,15 +66,18 @@ export class UserService {
       updateUserDto.password = encryptedPassword;
     }
 
-    const updatedUser: ReturnUserDto = await this.prisma.user.update({
-      where: { id },
-      data: updateUserDto,
-      select: returnUserQuery,
-    })
+    try {
+      const updatedUser: ReturnUserDto = await this.prisma.user.update({
+        where: { id },
+        data: updateUserDto,
+        select: returnUserQuery,
+      })
 
-    if (!updatedUser) throw new BadRequestException();
-
-    return updatedUser;
+      return updatedUser;
+    }
+    catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   async remove(id: string): Promise<void> {
